@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Gentleman-Programming/Gentleman.Dots/installer/internal/system"
+	"github.com/mabuabaranlc/Gentleman.Dots/installer/internal/system"
 )
 
 func TestNewModel(t *testing.T) {
@@ -305,7 +305,8 @@ func TestSetupInstallSteps(t *testing.T) {
 
 		m.SetupInstallSteps()
 
-		expectedSteps := []string{"clone", "homebrew", "deps", "terminal", "font", "shell", "wm", "nvim", "setshell", "cleanup"}
+		expectedSteps := []string{"clone", "homebrew", "deps", "terminal", "font", "nushell", "shell", "ohmyposh", "bun", "wm", "nvim", "setshell", "cleanup"}
+
 
 		if len(m.Steps) != len(expectedSteps) {
 			t.Errorf("Expected %d steps, got %d", len(expectedSteps), len(m.Steps))

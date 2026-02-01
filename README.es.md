@@ -48,7 +48,7 @@ Una configuración completa de entorno de desarrollo que incluye:
 ### Opción 1: Homebrew (Recomendado)
 
 ```bash
-brew install Gentleman-Programming/tap/gentleman-dots
+brew install mabuabaranlc/tap/gentleman-dots
 gentleman-dots
 ```
 
@@ -56,16 +56,16 @@ gentleman-dots
 
 ```bash
 # macOS Apple Silicon
-curl -fsSL https://github.com/Gentleman-Programming/Gentleman.Dots/releases/latest/download/gentleman-installer-darwin-arm64 -o gentleman.dots
+curl -fsSL https://github.com/mabuabaranlc/Gentleman.Dots/releases/latest/download/gentleman-installer-darwin-arm64 -o gentleman.dots
 
 # macOS Intel
-curl -fsSL https://github.com/Gentleman-Programming/Gentleman.Dots/releases/latest/download/gentleman-installer-darwin-amd64 -o gentleman.dots
+curl -fsSL https://github.com/mabuabaranlc/Gentleman.Dots/releases/latest/download/gentleman-installer-darwin-amd64 -o gentleman.dots
 
 # Linux x86_64
-curl -fsSL https://github.com/Gentleman-Programming/Gentleman.Dots/releases/latest/download/gentleman-installer-linux-amd64 -o gentleman.dots
+curl -fsSL https://github.com/mabuabaranlc/Gentleman.Dots/releases/latest/download/gentleman-installer-linux-amd64 -o gentleman.dots
 
 # Linux ARM64 (Raspberry Pi, etc.)
-curl -fsSL https://github.com/Gentleman-Programming/Gentleman.Dots/releases/latest/download/gentleman-installer-linux-arm64 -o gentleman.dots
+curl -fsSL https://github.com/mabuabaranlc/Gentleman.Dots/releases/latest/download/gentleman-installer-linux-arm64 -o gentleman.dots
 
 # Luego ejecutar
 chmod +x gentleman.dots
@@ -82,7 +82,7 @@ pkg update && pkg upgrade
 pkg install git golang
 
 # 2. Clonar el repositorio
-git clone https://github.com/Gentleman-Programming/Gentleman.Dots.git
+git clone https://github.com/mabuabaranlc/Gentleman.Dots.git
 cd Gentleman.Dots/installer
 
 # 3. Compilar y ejecutar
@@ -200,7 +200,7 @@ Podés iniciarlo desde el menú principal: **Vim Mastery Trainer**
 
 ¿Querés las últimas funcionalidades experimentales de mi workflow diario (solo macOS)?
 
-Mirá la rama [`nix-migration`](https://github.com/Gentleman-Programming/Gentleman.Dots/tree/nix-migration).
+Mirá la rama [`nix-migration`](https://github.com/mabuabaranlc/Gentleman.Dots/tree/nix-migration).
 
 Contiene configuraciones de vanguardia que luego pasan a `main` cuando se estabilizan.
 

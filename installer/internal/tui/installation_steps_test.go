@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/Gentleman-Programming/Gentleman.Dots/installer/internal/system"
+	"github.com/mabuabaranlc/Gentleman.Dots/installer/internal/system"
 	tea "github.com/charmbracelet/bubbletea"
 )
 
@@ -102,7 +102,7 @@ func validateChoices(t *testing.T, choices UserChoices) {
 	}
 
 	// Validate required steps exist
-	requiredSteps := []string{"clone", "shell", "setshell", "cleanup"}
+	requiredSteps := []string{"clone", "nushell", "bun", "setshell", "cleanup"}
 	for _, req := range requiredSteps {
 		found := false
 		for _, step := range m.Steps {
@@ -117,9 +117,18 @@ func validateChoices(t *testing.T, choices UserChoices) {
 	}
 
 	// Validate conditional steps
+	if choices.Shell != "nushell" {
+		assertStepExists(t, m.Steps, "shell", "Primary shell step should exist when not nushell")
+	}
+
+	if choices.Shell == "zsh" {
+		assertStepExists(t, m.Steps, "ohmyposh", "Oh My Posh step should exist when shell is zsh")
+	}
+
 	if choices.Terminal != "none" && choices.Terminal != "" {
 		assertStepExists(t, m.Steps, "terminal", "Terminal step should exist when terminal is selected")
 	}
+
 
 	if choices.WindowMgr != "none" && choices.WindowMgr != "" {
 		assertStepExists(t, m.Steps, "wm", "WM step should exist when WM is selected")

@@ -1,11 +1,5 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+# export ZSH="$HOME/.oh-my-zsh"
 
-export ZSH="$HOME/.oh-my-zsh"
 
 # Detect Termux
 IS_TERMUX=0
@@ -64,14 +58,13 @@ if [[ $IS_TERMUX -eq 1 ]]; then
     [[ -f "$PREFIX/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh" ]] && source "$PREFIX/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh"
     [[ -f "$PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]] && source "$PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
     [[ -f "$PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]] && source "$PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
-    # Powerlevel10k on Termux - may need manual install
-    [[ -f "$PREFIX/share/powerlevel10k/powerlevel10k.zsh-theme" ]] && source "$PREFIX/share/powerlevel10k/powerlevel10k.zsh-theme"
 else
     source $(dirname $BREW_BIN)/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
     source $(dirname $BREW_BIN)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
     source $(dirname $BREW_BIN)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-    source $(dirname $BREW_BIN)/share/powerlevel10k/powerlevel10k.zsh-theme
 fi
+
+
 
 export PROJECT_PATHS="/home/alanbuscaglia/work"
 export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
@@ -108,7 +101,12 @@ eval "$(fzf --zsh)"
 eval "$(zoxide init zsh)"
 eval "$(atuin init zsh)"
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# ============================================
+# Oh My Posh - Atomic Theme
+# ============================================
+if command -v oh-my-posh &> /dev/null; then
+    eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/atomic.omp.json)"
+fi
+
 
 start_if_needed

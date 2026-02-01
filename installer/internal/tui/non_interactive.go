@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"runtime"
 
-	"github.com/Gentleman-Programming/Gentleman.Dots/installer/internal/system"
+	"github.com/mabuabaranlc/Gentleman.Dots/installer/internal/system"
 )
 
 // RunNonInteractive executes the installation without TUI

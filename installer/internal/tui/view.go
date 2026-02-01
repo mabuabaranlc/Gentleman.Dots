@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/Gentleman-Programming/Gentleman.Dots/installer/internal/tui/trainer"
+	"github.com/mabuabaranlc/Gentleman.Dots/installer/internal/tui/trainer"
 	"github.com/charmbracelet/lipgloss"
 )
 
@@ -19,35 +19,33 @@ func formatControlChars(input string) string {
 }
 
 const logo = `
-                    ░░░░░░      ░░░░░░                        
-                  ░░░░░░░░░░  ░░░░░░░░░░                      
-                ░░░░░░░░░░░░░░░░░░░░░░░░░░                    
-              ░░░░░░░░░░▒▒▒▒░░▒▒▒▒░░░░░░░░░░                  
-  ░░░░      ░░░░░░▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░░░░░░        ░░░░    
-▒▒░░      ░░░░░░▒▒▒▒▒▒▒▒▒▒██▒▒██▒▒▒▒▒▒▒▒▒▒░░░░░░        ▒▒░░  
-▒▒░░    ░░░░░░░░▒▒▒▒▒▒▒▒▒▒████▒▒████▒▒▒▒▒▒▒▒▒▒░░░░░░░░  ▒▒░░  
-▒▒▒▒░░░░░░▒▒▒▒▒▒▒▒▒▒▒▒▒▒██████▒▒██████▒▒▒▒▒▒▒▒▒▒▒▒▒▒░░░░░░▒▒▒▒
-██▒▒▒▒▒▒▒▒▒▒▒▒▒▒██▒▒▒▒██████▓▓██▒▒██████▒▒▓▓██▒▒▒▒▒▒▒▒▒▒▒▒▒▒██
-████▒▒▒▒▒▒████▒▒▒▒██████████  ██████████▒▒▒▒████▒▒▒▒▒▒▒▒██    
-  ████████████████████████      ████████████████████████      
-    ██████████████████              ██████████████████        
-        ██████████                      ██████████            
+███╗   ██╗██╗   ██╗███╗   ██╗    ██╗      █████╗ ███╗   ███╗███████╗██████╗      ██████╗ █████╗ ███████╗
+████╗  ██║██║   ██║████╗  ██║    ██║     ██╔══██╗████╗ ████║██╔════╝██╔══██╗    ██╔════╝██╔══██╗██╔════╝
+██╔██╗ ██║██║   ██║██╔██╗ ██║    ██║     ███████║██╔████╔██║█████╗  ██║  ██║    ██║     ███████║█████╗  
+██║╚██╗██║██║   ██║██║╚██╗██║    ██║     ██╔══██║██║╚██╔╝██║██╔══╝  ██║  ██║    ██║     ██╔══██║██╔══╝  
+██║ ╚████║╚██████╔╝██║ ╚████║    ███████╗██║  ██║██║ ╚═╝ ██║███████╗██████╔╝    ╚██████╗██║  ██║██║     
+╚═╝  ╚═══╝ ╚═════╝ ╚═╝  ╚═══╝    ╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝╚═════╝      ╚═════╝╚═╝  ╚═╝╚═╝     
 `
 
-const gentlemanText = `
- ██████╗ ███████╗███╗   ██╗████████╗██╗     ███████╗███╗   ███╗ █████╗ ███╗   ██╗
-██╔════╝ ██╔════╝████╗  ██║╚══██╔══╝██║     ██╔════╝████╗ ████║██╔══██╗████╗  ██║
-██║  ███╗█████╗  ██╔██╗ ██║   ██║   ██║     █████╗  ██╔████╔██║███████║██╔██╗ ██║
-██║   ██║██╔══╝  ██║╚██╗██║   ██║   ██║     ██╔══╝  ██║╚██╔╝██║██╔══██║██║╚██╗██║
-╚██████╔╝███████╗██║ ╚████║   ██║   ███████╗███████╗██║ ╚═╝ ██║██║  ██║██║ ╚████║
- ╚═════╝ ╚══════╝╚═╝  ╚═══╝   ╚═╝   ╚══════╝╚══════╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝
-                        ██████╗  ██████╗ ████████╗███████╗
-                        ██╔══██╗██╔═══██╗╚══██╔══╝██╔════╝
-                        ██║  ██║██║   ██║   ██║   ███████╗
-                        ██║  ██║██║   ██║   ██║   ╚════██║
-                        ██████╔╝╚██████╔╝   ██║   ███████║
-                        ╚═════╝  ╚═════╝    ╚═╝   ╚══════╝
-`
+const gentlemanText = `נ ל כ`
+
+// centerText centra texto horizontalmente
+func centerText(text string, width int) string {
+	lines := strings.Split(strings.TrimSpace(text), "\n")
+	var centered []string
+	
+	for _, line := range lines {
+		lineLen := len([]rune(line))
+		if lineLen < width {
+			padding := (width - lineLen) / 2
+			centered = append(centered, strings.Repeat(" ", padding)+line)
+		} else {
+			centered = append(centered, line)
+		}
+	}
+	
+	return strings.Join(centered, "\n")
+}
 
 // View implements tea.Model
 func (m Model) View() string {
@@ -135,11 +133,25 @@ func (m Model) View() string {
 func (m Model) renderWelcome() string {
 	var s strings.Builder
 
-	// Logo
-	s.WriteString(LogoStyle.Render(logo))
+	// Obtener ancho máximo del logo para centrar el texto hebreo
+	logoLines := strings.Split(strings.TrimSpace(logo), "\n")
+	maxWidth := 0
+	for _, line := range logoLines {
+		if len([]rune(line)) > maxWidth {
+			maxWidth = len([]rune(line))
+		}
+	}
+
+	// Logo centrado horizontalmente
+	logoStyle := LogoStyle.Copy().Width(maxWidth).Align(lipgloss.Center)
+	s.WriteString(logoStyle.Render(logo))
 	s.WriteString("\n")
-	s.WriteString(TitleStyle.Render(gentlemanText))
+	
+	// Texto hebreo centrado según el ancho del logo
+	titleStyle := TitleStyle.Copy().Width(maxWidth).Align(lipgloss.Center)
+	s.WriteString(titleStyle.Render(gentlemanText))
 	s.WriteString("\n\n")
+
 
 	// System info
 	info := fmt.Sprintf("Detected: %s", m.SystemInfo.OSName)

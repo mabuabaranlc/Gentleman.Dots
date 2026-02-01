@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Gentleman-Programming/Gentleman.Dots/installer/internal/system"
+	"github.com/mabuabaranlc/Gentleman.Dots/installer/internal/system"
 	tea "github.com/charmbracelet/bubbletea"
 )
 

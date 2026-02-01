@@ -1,5 +1,5 @@
 return {
-  "Gentleman-Programming/veil.nvim",
+  "mabuabaranlc/veil.nvim",
   config = function()
     require("veil").setup()
   end,

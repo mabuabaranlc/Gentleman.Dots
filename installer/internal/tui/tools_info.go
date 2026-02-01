@@ -128,7 +128,7 @@ func GetShellInfo() map[string]ToolInfo {
 			Pros: []string{
 				"POSIX compatible (bash scripts work)",
 				"Huge plugin ecosystem (oh-my-zsh)",
-				"PowerLevel10k for amazing prompts",
+				"Oh My Posh for amazing prompts",
 				"Very mature and stable",
 				"Great completion system",
 				"Default on macOS",

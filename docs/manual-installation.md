@@ -30,7 +30,7 @@ This guide walks you through manually setting up your development environment wi
 **Clone the repository first!**
 
 ```bash
-git clone git@github.com:Gentleman-Programming/Gentleman.Dots.git
+git clone git@github.com:mabuabaranlc/Gentleman.Dots.git
 cd Gentleman.Dots
 ```
 
@@ -430,7 +430,7 @@ end
 If you encounter other problems:
 
 1. Consult the official documentation of the specific tool
-2. Open an issue on [GitHub](https://github.com/Gentleman-Programming/Gentleman.Dots/issues)
+2. Open an issue on [GitHub](https://github.com/mabuabaranlc/Gentleman.Dots/issues)
 
 ---
 

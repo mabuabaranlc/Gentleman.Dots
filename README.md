@@ -43,7 +43,7 @@ A complete development environment configuration including:
 ### Option 1: Homebrew (Recommended)
 
 ```bash
-brew install Gentleman-Programming/tap/gentleman-dots
+brew install mabuabaranlc/tap/gentleman-dots
 gentleman-dots
 ```
 
@@ -51,16 +51,16 @@ gentleman-dots
 
 ```bash
 # macOS Apple Silicon
-curl -fsSL https://github.com/Gentleman-Programming/Gentleman.Dots/releases/latest/download/gentleman-installer-darwin-arm64 -o gentleman.dots
+curl -fsSL https://github.com/mabuabaranlc/Gentleman.Dots/releases/latest/download/gentleman-installer-darwin-arm64 -o gentleman.dots
 
 # macOS Intel
-curl -fsSL https://github.com/Gentleman-Programming/Gentleman.Dots/releases/latest/download/gentleman-installer-darwin-amd64 -o gentleman.dots
+curl -fsSL https://github.com/mabuabaranlc/Gentleman.Dots/releases/latest/download/gentleman-installer-darwin-amd64 -o gentleman.dots
 
 # Linux x86_64
-curl -fsSL https://github.com/Gentleman-Programming/Gentleman.Dots/releases/latest/download/gentleman-installer-linux-amd64 -o gentleman.dots
+curl -fsSL https://github.com/mabuabaranlc/Gentleman.Dots/releases/latest/download/gentleman-installer-linux-amd64 -o gentleman.dots
 
 # Linux ARM64 (Raspberry Pi, etc.)
-curl -fsSL https://github.com/Gentleman-Programming/Gentleman.Dots/releases/latest/download/gentleman-installer-linux-arm64 -o gentleman.dots
+curl -fsSL https://github.com/mabuabaranlc/Gentleman.Dots/releases/latest/download/gentleman-installer-linux-arm64 -o gentleman.dots
 
 # Then run
 chmod +x gentleman.dots
@@ -77,7 +77,7 @@ pkg update && pkg upgrade
 pkg install git golang
 
 # 2. Clone the repository
-git clone https://github.com/Gentleman-Programming/Gentleman.Dots.git
+git clone https://github.com/mabuabaranlc/Gentleman.Dots.git
 cd Gentleman.Dots/installer
 
 # 3. Build and run
@@ -195,7 +195,7 @@ Launch it from the main menu: **Vim Mastery Trainer**
 
 Want the latest experimental features from my daily workflow (macOS only)?
 
-Check out the [`nix-migration` branch](https://github.com/Gentleman-Programming/Gentleman.Dots/tree/nix-migration).
+Check out the [`nix-migration` branch](https://github.com/mabuabaranlc/Gentleman.Dots/tree/nix-migration).
 
 This branch contains cutting-edge configurations that eventually make their way to `main` once stable.
 
@@ -235,7 +235,7 @@ Gentleman.Dots/
 
 ## Support
 
-- **Issues**: [GitHub Issues](https://github.com/Gentleman-Programming/Gentleman.Dots/issues)
+- **Issues**: [GitHub Issues](https://github.com/mabuabaranlc/Gentleman.Dots/issues)
 - **Discord**: [Gentleman Programming Community](https://discord.gg/gentleman-programming)
 - **YouTube**: [@GentlemanProgramming](https://youtube.com/@GentlemanProgramming)
 - **Twitch**: [GentlemanProgramming](https://twitch.tv/GentlemanProgramming)

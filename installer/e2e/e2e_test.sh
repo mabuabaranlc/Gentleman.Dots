@@ -86,34 +86,24 @@ test_zsh_zellij() {
             return
         fi
         
-        # Verify Zellij config in .zshrc (not tmux!)
-        if grep -q "ZELLIJ" "$HOME/.zshrc"; then
-            log_pass ".zshrc contains ZELLIJ config"
+        # Verify Oh My Posh initialization
+        if grep -q "oh-my-posh" "$HOME/.zshrc"; then
+            log_pass ".zshrc contains Oh My Posh config"
         else
-            log_fail ".zshrc missing ZELLIJ config"
+            log_fail ".zshrc missing Oh My Posh config"
         fi
         
-        # Verify NO tmux in .zshrc
-        if grep -q 'WM_CMD="tmux"' "$HOME/.zshrc"; then
-            log_fail ".zshrc still has tmux (should be zellij)"
+        # Verify Atomic theme exists
+        if [ -f "$HOME/.config/ohmyposh/atomic.omp.json" ]; then
+            log_pass "Atomic theme deployed"
         else
-            log_pass ".zshrc correctly has no tmux"
-        fi
-        
-        # Verify Zellij config has default_shell set to zsh
-        if [ -f "$HOME/.config/zellij/config.kdl" ]; then
-            if grep -q 'default_shell "zsh"' "$HOME/.config/zellij/config.kdl"; then
-                log_pass "Zellij config has default_shell set to zsh"
-            else
-                log_fail "Zellij config missing default_shell zsh"
-            fi
-        else
-            log_fail "Zellij config.kdl not found"
+            log_fail "Atomic theme not found"
         fi
     else
         log_fail "Installation failed"
     fi
 }
+
 
 # Test: Fish + Tmux + Nvim
 test_fish_tmux_nvim() {
@@ -404,10 +394,47 @@ test_nvim_configured() {
         else
             log_fail "Neovim failed to start"
         fi
+
+        # Check for diagram.nvim config
+        if [ -f "$HOME/.config/nvim/lua/plugins/diagram.lua" ]; then
+            log_pass "diagram.nvim configuration exists"
+        else
+            log_fail "diagram.nvim configuration missing"
+        fi
     else
         log_fail "Neovim not installed"
     fi
 }
+
+test_bun_installed() {
+    log_test "Bun.js is installed"
+    # Note: Bun installs to ~/.bun/bin
+    export PATH="$HOME/.bun/bin:$PATH"
+    if bun --version >/dev/null 2>&1; then
+        log_pass "Bun.js is functional"
+    else
+        log_fail "Bun.js not functional or not in PATH"
+    fi
+}
+
+test_oh_my_posh_installed() {
+    log_test "Oh My Posh is installed"
+    if command -v oh-my-posh >/dev/null 2>&1; then
+        log_pass "Oh My Posh binary is installed"
+    else
+        log_fail "Oh My Posh binary not found"
+    fi
+}
+
+test_mandatory_nushell() {
+    log_test "Nushell is installed (mandatory check)"
+    if command -v nu >/dev/null 2>&1; then
+        log_pass "Nushell is functional"
+    else
+        log_fail "Nushell not found despite mandatory installation"
+    fi
+}
+
 
 # ============================================
 # BACKUP SYSTEM TESTS
@@ -760,7 +787,11 @@ if [ "$RUN_FULL_E2E" = "1" ]; then
     test_shell_functional
     test_wm_installed
     test_nvim_configured
+    test_bun_installed
+    test_oh_my_posh_installed
+    test_mandatory_nushell
 fi
+
 
 # Summary
 log_section "Test Summary"

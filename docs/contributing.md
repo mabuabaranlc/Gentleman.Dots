@@ -23,7 +23,7 @@ Guide for contributors and developers working on Gentleman.Dots.
 ### Build from Source
 
 ```bash
-git clone https://github.com/Gentleman-Programming/Gentleman.Dots.git
+git clone https://github.com/mabuabaranlc/Gentleman.Dots.git
 cd Gentleman.Dots/installer
 go build -o gentleman-dots ./cmd/gentleman-installer
 ./gentleman-dots

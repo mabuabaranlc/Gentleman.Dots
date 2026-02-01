@@ -193,8 +193,11 @@ run_e2e_all() {
     
     print_header "Gentleman.Dots E2E Test Suite"
     
-    # Build binary first
-    build_binary
+    # Build binary first if it doesn't exist
+    if [ ! -f "$SCRIPT_DIR/gentleman-installer-linux-amd64" ]; then
+        build_binary
+    fi
+
     
     FAILED=0
     PASSED=0

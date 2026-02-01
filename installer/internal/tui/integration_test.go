@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Gentleman-Programming/Gentleman.Dots/installer/internal/system"
+	"github.com/mabuabaranlc/Gentleman.Dots/installer/internal/system"
 	tea "github.com/charmbracelet/bubbletea"
 )
 
@@ -525,7 +525,7 @@ func TestInstallStepsSetup(t *testing.T) {
 			},
 			sysInfo:       &system.SystemInfo{OS: system.OSMac, HasBrew: true, HasXcode: true},
 			existConfigs:  []string{},
-			expectedSteps: []string{"clone", "shell", "setshell", "cleanup"},
+			expectedSteps: []string{"clone", "nushell", "shell", "bun", "setshell", "cleanup"},
 		},
 		{
 			name: "full mac install with backup",
@@ -540,7 +540,7 @@ func TestInstallStepsSetup(t *testing.T) {
 			},
 			sysInfo:       &system.SystemInfo{OS: system.OSMac, HasBrew: true, HasXcode: true},
 			existConfigs:  []string{"nvim: /test"},
-			expectedSteps: []string{"backup", "clone", "terminal", "font", "shell", "wm", "nvim", "setshell", "cleanup"},
+			expectedSteps: []string{"backup", "clone", "terminal", "font", "nushell", "shell", "bun", "wm", "nvim", "setshell", "cleanup"},
 		},
 		{
 			name: "linux install without brew",
@@ -555,7 +555,7 @@ func TestInstallStepsSetup(t *testing.T) {
 			},
 			sysInfo:       &system.SystemInfo{OS: system.OSLinux, HasBrew: false},
 			existConfigs:  []string{},
-			expectedSteps: []string{"clone", "homebrew", "deps", "terminal", "font", "shell", "wm", "nvim", "setshell", "cleanup"},
+			expectedSteps: []string{"clone", "homebrew", "deps", "terminal", "font", "nushell", "shell", "ohmyposh", "bun", "wm", "nvim", "setshell", "cleanup"},
 		},
 	}
 

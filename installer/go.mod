@@ -1,4 +1,4 @@
-module github.com/Gentleman-Programming/Gentleman.Dots/installer
+module github.com/mabuabaranlc/Gentleman.Dots/installer
 
 go 1.25.1
 

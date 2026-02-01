@@ -7,7 +7,7 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/Gentleman-Programming/Gentleman.Dots/installer/internal/system"
+	"github.com/mabuabaranlc/Gentleman.Dots/installer/internal/system"
 )
 
 // StepError provides context about which step failed and why
@@ -61,11 +61,20 @@ func executeStep(stepID string, m *Model) error {
 		return stepInstallFont(m)
 	case "shell":
 		return stepInstallShell(m)
+	case "nushell":
+		return stepInstallNushell(m)
 	case "wm":
+
 		return stepInstallWM(m)
 	case "nvim":
 		return stepInstallNvim(m)
+	case "ohmyposh":
+		return stepInstallOhMyPosh(m)
+	case "bun":
+		return stepInstallBun(m)
 	case "cleanup":
+
+
 		return stepCleanup(m)
 	case "setshell":
 		return stepSetDefaultShell(m)
@@ -117,7 +126,7 @@ func stepCloneRepo(m *Model) error {
 	}
 
 	SendLog(stepID, "Cloning repository from GitHub...")
-	result := system.RunWithLogs("git clone --progress https://github.com/Gentleman-Programming/Gentleman.Dots.git Gentleman.Dots", nil, func(line string) {
+	result := system.RunWithLogs("git clone --progress https://github.com/mabuabaranlc/Gentleman.Dots.git Gentleman.Dots", nil, func(line string) {
 		SendLog(stepID, line)
 	})
 	if result.Error != nil {
@@ -670,15 +679,17 @@ func stepInstallShell(m *Model) error {
 		SendLog(stepID, "Installing Zsh and plugins...")
 		var result *system.ExecResult
 		if m.SystemInfo.IsTermux {
-			// Termux has zsh in pkg, but plugins need to be installed differently
 			result = system.RunPkgInstall("zsh starship zoxide", nil, func(line string) {
 				SendLog(stepID, line)
 			})
 		} else {
-			result = system.RunBrewWithLogs("install zsh carapace zoxide atuin zsh-autosuggestions zsh-syntax-highlighting zsh-autocomplete powerlevel10k", nil, func(line string) {
+			result = system.RunBrewWithLogs("install zsh carapace zoxide atuin zsh-autosuggestions zsh-syntax-highlighting zsh-autocomplete", nil, func(line string) {
 				SendLog(stepID, line)
 			})
 		}
+
+
+
 		if result.Error != nil {
 			return wrapStepError("shell", "Install Zsh",
 				"Failed to install Zsh and plugins",
@@ -690,18 +701,12 @@ func stepInstallShell(m *Model) error {
 				"Failed to copy .zshrc configuration",
 				err)
 		}
-		// Patch .zshrc based on WM choice
-		SendLog(stepID, "Configuring shell for window manager...")
 		if err := system.PatchZshForWM(filepath.Join(homeDir, ".zshrc"), m.Choices.WindowMgr, m.Choices.InstallNvim); err != nil {
 			return wrapStepError("shell", "Install Zsh",
 				"Failed to configure .zshrc for window manager",
 				err)
 		}
-		if err := system.CopyFile(filepath.Join(repoDir, "GentlemanZsh/.p10k.zsh"), filepath.Join(homeDir, ".p10k.zsh")); err != nil {
-			return wrapStepError("shell", "Install Zsh",
-				"Failed to copy Powerlevel10k configuration",
-				err)
-		}
+
 		if err := system.CopyDir(filepath.Join(repoDir, "GentlemanZsh", ".oh-my-zsh"), filepath.Join(homeDir, ".oh-my-zsh")); err != nil {
 			return wrapStepError("shell", "Install Zsh",
 				"Failed to copy Oh-My-Zsh directory",
@@ -722,85 +727,100 @@ func stepInstallShell(m *Model) error {
 				f.Close()
 			}
 		}
-		SendLog(stepID, "✓ Zsh configured with Powerlevel10k")
-
-	case "nushell":
-		SendLog(stepID, "Installing Nushell and dependencies...")
-		var result *system.ExecResult
-		if m.SystemInfo.IsTermux {
-			result = system.RunPkgInstall("nushell starship zoxide jq", nil, func(line string) {
-				SendLog(stepID, line)
-			})
-		} else {
-			result = system.RunBrewWithLogs("install nushell carapace zoxide atuin jq bash starship", nil, func(line string) {
-				SendLog(stepID, line)
-			})
-		}
-		if result.Error != nil {
-			return wrapStepError("shell", "Install Nushell",
-				"Failed to install Nushell and dependencies",
-				result.Error)
-		}
-		SendLog(stepID, "Copying Nushell configuration...")
-		if err := system.CopyFile(filepath.Join(repoDir, "starship.toml"), filepath.Join(homeDir, ".config/starship.toml")); err != nil {
-			return wrapStepError("shell", "Install Nushell",
-				"Failed to copy starship configuration",
-				err)
-		}
-		if err := system.CopyFile(filepath.Join(repoDir, "bash-env-json"), filepath.Join(homeDir, ".config/bash-env-json")); err != nil {
-			return wrapStepError("shell", "Install Nushell",
-				"Failed to copy bash-env-json",
-				err)
-		}
-		if err := system.CopyFile(filepath.Join(repoDir, "bash-env.nu"), filepath.Join(homeDir, ".config/bash-env.nu")); err != nil {
-			return wrapStepError("shell", "Install Nushell",
-				"Failed to copy bash-env.nu",
-				err)
-		}
-
-		var nuDir string
-		if runtime.GOOS == "darwin" {
-			nuDir = filepath.Join(homeDir, "Library/Application Support/nushell")
-		} else {
-			nuDir = filepath.Join(homeDir, ".config/nushell")
-		}
-		if err := system.EnsureDir(nuDir); err != nil {
-			return wrapStepError("shell", "Install Nushell",
-				"Failed to create Nushell config directory",
-				err)
-		}
-		if err := system.CopyDir(filepath.Join(repoDir, "GentlemanNushell"), nuDir); err != nil {
-			return wrapStepError("shell", "Install Nushell",
-				"Failed to copy Nushell configuration",
-				err)
-		}
-		// Patch config.nu based on WM choice
-		SendLog(stepID, "Configuring shell for window manager...")
-		if err := system.PatchNushellForWM(filepath.Join(nuDir, "config.nu"), m.Choices.WindowMgr); err != nil {
-			return wrapStepError("shell", "Install Nushell",
-				"Failed to configure config.nu for window manager",
-				err)
-		}
-		// Termux: Add nu to $PREFIX/etc/shells so tmux doesn't complain
-		if m.SystemInfo.IsTermux {
-			SendLog(stepID, "Adding nushell to Termux shells...")
-			prefix := os.Getenv("PREFIX")
-			if prefix == "" {
-				prefix = "/data/data/com.termux/files/usr"
-			}
-			shellsFile := filepath.Join(prefix, "etc", "shells")
-			system.EnsureDir(filepath.Join(prefix, "etc"))
-			f, err := os.OpenFile(shellsFile, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
-			if err == nil {
-				f.WriteString(filepath.Join(prefix, "bin", "nu") + "\n")
-				f.Close()
-			}
-		}
-		SendLog(stepID, "✓ Nushell configured")
+		SendLog(stepID, "✓ Zsh configured")
 	}
 
 	return nil
 }
+
+
+func stepInstallNushell(m *Model) error {
+	homeDir := os.Getenv("HOME")
+	repoDir := "Gentleman.Dots"
+	stepID := "nushell"
+
+	// Common shell dependencies
+	SendLog(stepID, "Creating required directories...")
+	system.EnsureDir(filepath.Join(homeDir, ".config"))
+	system.EnsureDir(filepath.Join(homeDir, ".cache/starship"))
+	system.EnsureDir(filepath.Join(homeDir, ".cache/carapace"))
+	system.EnsureDir(filepath.Join(homeDir, ".local/share/atuin"))
+
+	SendLog(stepID, "Installing Nushell and dependencies...")
+	var result *system.ExecResult
+	if m.SystemInfo.IsTermux {
+		result = system.RunPkgInstall("nushell starship zoxide jq", nil, func(line string) {
+			SendLog(stepID, line)
+		})
+	} else {
+		result = system.RunBrewWithLogs("install nushell carapace zoxide atuin jq bash starship", nil, func(line string) {
+			SendLog(stepID, line)
+		})
+	}
+	if result.Error != nil {
+		return wrapStepError(stepID, "Install Nushell",
+			"Failed to install Nushell and dependencies",
+			result.Error)
+	}
+	SendLog(stepID, "Copying Nushell configuration...")
+	if err := system.CopyFile(filepath.Join(repoDir, "starship.toml"), filepath.Join(homeDir, ".config/starship.toml")); err != nil {
+		return wrapStepError(stepID, "Install Nushell",
+			"Failed to copy starship configuration",
+			err)
+	}
+	if err := system.CopyFile(filepath.Join(repoDir, "bash-env-json"), filepath.Join(homeDir, ".config/bash-env-json")); err != nil {
+		return wrapStepError(stepID, "Install Nushell",
+			"Failed to copy bash-env-json",
+			err)
+	}
+	if err := system.CopyFile(filepath.Join(repoDir, "bash-env.nu"), filepath.Join(homeDir, ".config/bash-env.nu")); err != nil {
+		return wrapStepError(stepID, "Install Nushell",
+			"Failed to copy bash-env.nu",
+			err)
+	}
+
+	var nuDir string
+	if runtime.GOOS == "darwin" {
+		nuDir = filepath.Join(homeDir, "Library/Application Support/nushell")
+	} else {
+		nuDir = filepath.Join(homeDir, ".config/nushell")
+	}
+	if err := system.EnsureDir(nuDir); err != nil {
+		return wrapStepError(stepID, "Install Nushell",
+			"Failed to create Nushell config directory",
+			err)
+	}
+	if err := system.CopyDir(filepath.Join(repoDir, "GentlemanNushell"), nuDir); err != nil {
+		return wrapStepError(stepID, "Install Nushell",
+			"Failed to copy Nushell configuration",
+			err)
+	}
+	// Patch config.nu based on WM choice
+	SendLog(stepID, "Configuring shell for window manager...")
+	if err := system.PatchNushellForWM(filepath.Join(nuDir, "config.nu"), m.Choices.WindowMgr); err != nil {
+		return wrapStepError(stepID, "Install Nushell",
+			"Failed to configure config.nu for window manager",
+			err)
+	}
+	// Termux: Add nu to $PREFIX/etc/shells so tmux doesn't complain
+	if m.SystemInfo.IsTermux {
+		SendLog(stepID, "Adding nushell to Termux shells...")
+		prefix := os.Getenv("PREFIX")
+		if prefix == "" {
+			prefix = "/data/data/com.termux/files/usr"
+		}
+		shellsFile := filepath.Join(prefix, "etc", "shells")
+		system.EnsureDir(filepath.Join(prefix, "etc"))
+		f, err := os.OpenFile(shellsFile, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+		if err == nil {
+			f.WriteString(filepath.Join(prefix, "bin", "nu") + "\n")
+			f.Close()
+		}
+	}
+	SendLog(stepID, "✓ Nushell configured")
+	return nil
+}
+
 
 func stepInstallWM(m *Model) error {
 	homeDir := os.Getenv("HOME")
@@ -1257,3 +1277,77 @@ fi
 	SendLog(stepID, "Log out and log back in for changes to take effect")
 	return nil
 }
+
+func stepInstallOhMyPosh(m *Model) error {
+	stepID := "ohmyposh"
+	homeDir := os.Getenv("HOME")
+	repoDir := "Gentleman.Dots"
+
+	if !system.CommandExists("oh-my-posh") {
+		SendLog(stepID, "Installing Oh My Posh...")
+		var result *system.ExecResult
+		if m.SystemInfo.IsTermux {
+			// Oh My Posh on Termux: can be installed via homebrew or binaries
+			// For now, let's use the official install script which works on most platforms
+			result = system.RunWithLogs(`curl -s https://ohmyposh.dev/install.sh | bash -s -- -d ~/.local/bin`, nil, func(line string) {
+				SendLog(stepID, line)
+			})
+		} else {
+			// Mac and Linux with Homebrew
+			result = system.RunBrewWithLogs("install oh-my-posh", nil, func(line string) {
+				SendLog(stepID, line)
+			})
+		}
+
+		if result.Error != nil {
+			return wrapStepError("ohmyposh", "Install Oh My Posh",
+				"Failed to install Oh My Posh. Check your internet connection.",
+				result.Error)
+		}
+	} else {
+		SendLog(stepID, "Oh My Posh already installed")
+	}
+
+	// Copy theme
+	SendLog(stepID, "Copying Atomic theme configuration...")
+	themeDir := filepath.Join(homeDir, ".config/ohmyposh")
+	if err := system.EnsureDir(themeDir); err != nil {
+		return wrapStepError("ohmyposh", "Install Oh My Posh",
+			"Failed to create ohmyposh config directory",
+			err)
+	}
+
+	if err := system.CopyFile(filepath.Join(repoDir, "GentlemanZsh/ohmyposh/atomic.omp.json"), filepath.Join(themeDir, "atomic.omp.json")); err != nil {
+		return wrapStepError("ohmyposh", "Install Oh My Posh",
+			"Failed to copy Atomic theme",
+			err)
+	}
+
+	SendLog(stepID, "✓ Oh My Posh installed and theme configured")
+	return nil
+}
+
+func stepInstallBun(m *Model) error {
+	stepID := "bun"
+
+	if system.CommandExists("bun") {
+		SendLog(stepID, "Bun.js already installed, skipping...")
+		return nil
+	}
+
+	SendLog(stepID, "Installing Bun.js...")
+	result := system.RunWithLogs(`curl -fsSL https://bun.sh/install | bash`, nil, func(line string) {
+		SendLog(stepID, line)
+	})
+
+	if result.Error != nil {
+		return wrapStepError("bun", "Install Bun.js",
+			"Failed to install Bun.js. Check your internet connection.",
+			result.Error)
+	}
+
+	SendLog(stepID, "✓ Bun.js installed successfully")
+	return nil
+}
+
+

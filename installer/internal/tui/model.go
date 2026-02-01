@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/Gentleman-Programming/Gentleman.Dots/installer/internal/system"
-	"github.com/Gentleman-Programming/Gentleman.Dots/installer/internal/tui/trainer"
+	"github.com/mabuabaranlc/Gentleman.Dots/installer/internal/system"
+	"github.com/mabuabaranlc/Gentleman.Dots/installer/internal/tui/trainer"
 	tea "github.com/charmbracelet/bubbletea"
 )
 
@@ -573,12 +573,43 @@ func (m *Model) SetupInstallSteps() {
 	}
 
 	// Shell (not interactive - brew doesn't need password)
+	// Nushell is now always installed as per user request
 	m.Steps = append(m.Steps, InstallStep{
-		ID:          "shell",
-		Name:        "Install " + m.Choices.Shell,
-		Description: "Shell and plugins",
+		ID:          "nushell",
+		Name:        "Install Nushell",
+		Description: "Modern shell with structured data",
 		Status:      StatusPending,
 	})
+
+	// Install the chosen shell if it's not Nushell
+	if m.Choices.Shell != "nushell" {
+		m.Steps = append(m.Steps, InstallStep{
+			ID:          "shell",
+			Name:        "Install " + m.Choices.Shell,
+			Description: "Main shell and plugins",
+			Status:      StatusPending,
+		})
+	}
+
+
+	// Oh My Posh (for Zsh)
+	if m.Choices.Shell == "zsh" {
+		m.Steps = append(m.Steps, InstallStep{
+			ID:          "ohmyposh",
+			Name:        "Install Oh My Posh",
+			Description: "Prompt engine with Atomic theme",
+			Status:      StatusPending,
+		})
+	}
+
+	// Bun.js
+	m.Steps = append(m.Steps, InstallStep{
+		ID:          "bun",
+		Name:        "Install Bun.js",
+		Description: "Fast JavaScript runtime",
+		Status:      StatusPending,
+	})
+
 
 	// Window manager (not interactive - brew doesn't need password)
 	if m.Choices.WindowMgr != "none" && m.Choices.WindowMgr != "" {
