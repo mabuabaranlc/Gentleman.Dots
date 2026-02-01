@@ -28,21 +28,30 @@ The Gentleman.Dots TUI Installer is a modern, interactive terminal application b
 
 ## Quick Start
 
-### Option 1: Homebrew (Recommended)
+## Quick Start
+
+### One-Line Installation (Recommended)
+
+Run the following command in your terminal to start the interactive installer:
 
 ```bash
-brew install mabuabaranlc/tap/gentleman-dots
-gentleman-dots
+curl -fsSL https://raw.githubusercontent.com/mabuabaranlc/Gentleman.Dots/latest/bootstrap.sh -o bootstrap.sh
+bash bootstrap.sh
 ```
 
-### Option 2: Download Pre-built Binary
+### Manual Installation
 
-| Platform | Command |
-|----------|---------|
-| macOS Apple Silicon | `curl -sL https://github.com/mabuabaranlc/Gentleman.Dots/releases/latest/download/gentleman-dots-darwin-arm64.tar.gz \| tar xz && ./gentleman-dots` |
-| macOS Intel | `curl -sL https://github.com/mabuabaranlc/Gentleman.Dots/releases/latest/download/gentleman-dots-darwin-amd64.tar.gz \| tar xz && ./gentleman-dots` |
-| Linux x86_64 | `curl -sL https://github.com/mabuabaranlc/Gentleman.Dots/releases/latest/download/gentleman-dots-linux-amd64.tar.gz \| tar xz && ./gentleman-dots` |
-| Linux ARM64 | `curl -sL https://github.com/mabuabaranlc/Gentleman.Dots/releases/latest/download/gentleman-dots-linux-arm64.tar.gz \| tar xz && ./gentleman-dots` |
+If you prefer to build the installer yourself:
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/mabuabaranlc/Gentleman.Dots.git
+cd Gentleman.Dots/installer
+
+# 2. Build and run
+go build -o gentleman-dots ./cmd/gentleman-installer
+./gentleman-dots
+```
 
 ### Option 3: Build from Source
 

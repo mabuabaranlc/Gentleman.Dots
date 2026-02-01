@@ -45,31 +45,26 @@ Una configuración completa de entorno de desarrollo que incluye:
 
 ## Inicio rápido
 
-### Opción 1: Homebrew (Recomendado)
+### Instalación en una línea (Recomendado)
+
+Ejecutá el siguiente comando en tu terminal para iniciar el instalador interactivo:
 
 ```bash
-brew install mabuabaranlc/tap/gentleman-dots
-gentleman-dots
+curl -fsSL https://raw.githubusercontent.com/mabuabaranlc/Gentleman.Dots/main/bootstrap.sh | bash
 ```
 
-### Opción 2: Descarga directa
+### Instalación manual
+
+Si preferís compilar el instalador vos mismo:
 
 ```bash
-# macOS Apple Silicon
-curl -fsSL https://github.com/mabuabaranlc/Gentleman.Dots/releases/latest/download/gentleman-installer-darwin-arm64 -o gentleman.dots
+# 1. Clonar el repositorio
+git clone https://github.com/mabuabaranlc/Gentleman.Dots.git
+cd Gentleman.Dots/installer
 
-# macOS Intel
-curl -fsSL https://github.com/mabuabaranlc/Gentleman.Dots/releases/latest/download/gentleman-installer-darwin-amd64 -o gentleman.dots
-
-# Linux x86_64
-curl -fsSL https://github.com/mabuabaranlc/Gentleman.Dots/releases/latest/download/gentleman-installer-linux-amd64 -o gentleman.dots
-
-# Linux ARM64 (Raspberry Pi, etc.)
-curl -fsSL https://github.com/mabuabaranlc/Gentleman.Dots/releases/latest/download/gentleman-installer-linux-arm64 -o gentleman.dots
-
-# Luego ejecutar
-chmod +x gentleman.dots
-./gentleman.dots
+# 2. Compilar y ejecutar
+go build -o gentleman-installer ./cmd/gentleman-installer
+./gentleman-installer
 ```
 
 ### Opción 3: Termux (Android)
